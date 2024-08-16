@@ -1,0 +1,10 @@
+Horarios Organizacionales:
+
+Contexto:
+
+“En la actualidad cualquier persona requiere de un horario, calendario o forma de recordar sus deberes o pendientes. El uso de estos varía; siendo usado en Oficinas para agendar reuniones o eventos, o por alumnos para registrar sus tareas y fechas de entrega, sea el uso que se le de son indispensables. Sin embargo, enfocándonos en el área de estudio, los horarios no son enteramente completos, pues sólo constan generalmente de los tiempos de nuestras clases, a esto le tenemos que agregar nuestras actividades extraescolares,tareas y más, es por ello que en los estudiantes más desorganizados es más común que sus tareas no sean entregadas y por lo tanto afecte su rendimiento académico. Se ha comprobado que el uso de una agenda aporta a mejorar su responsabilidad, organización y promedio, como se determinó en un proyecto con 48 alumnos en el Instituto Tecnológico Superior del Sur de Guanajuato donde todos los valores que se midieron incrementaron al hacerse uso de las agendas y al ser estas eficientes.
+La meta de este proyecto es el formar una agenda completa, donde cada periodo de tiempo tenga una etiqueta, para que de esta forma el uso del tiempo y la productividad dentro de estos se vea mejorado. Esto se logra al catalogar desde el tiempo para despertar hasta la hora de dormir, para así mantener un control total de nuestras actividades diarias.
+El factor innovador de este proyecto es que no solo te ayuda a establecer la agenda sino a generar una dependiendo de tus necesidades, es decir que si tienes que realizar cierta actividad y no sabes cuándo sería el tiempo más óptimo para ello, este programa te sugerirá un espacio para ello.”
+
+Tecnológico Nacional de México, Quintana Niño, J. de J., Medina Vieyra, G. B., & Oliver García, A. (2017). IMPACTO DE LAS AGENDAS ELECTRÓNICAS EN EL RENDIMIENTO ACADÉMICO, ORGANIZACIÓN Y RESPONSABILIDAD DE LOS ESTUDIANTES . Recuperado 16 de agosto de 2024, de https://pistaseducativas.celaya.tecnm.mx/index.php/pistas/article/download/775/732#:~:text=Los%20resultados%20obtenidos%20arrojaron%20que,el%20promedio%20de%20los%20mismos.
+# TC1028-Proyecto_Alejandro_C
