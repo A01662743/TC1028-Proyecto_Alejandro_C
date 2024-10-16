@@ -1,12 +1,45 @@
-#variables globales/constantes
-meses_con_31 = list([1, 3, 5, 7, 8, 10, 12])
-biblioteca_temp = {}
-biblioteca_general = {}
+"""
+Calendario digital
+El programa agenda las actividades que introduzca el usuario
+en el horario que solicite y regresa la fecha y hora de finalización
+considerando la duración de la actividad.
+El programa tambien puede eliminar actividades o revisar
+actividades un día solicitado
+"""
 
-#defs
+"""
+================== funciones =====================================
+"""
+
+def variables_comun():
+    """
+    (funciones, condicionales, ciclos)
+    solicita un mes (valor numérico) y un dia (valor numérico)
+    verifica y solicita que los valores esten en el rango debido
+    devuelve: el mes y el dia
+    """
+    mes = int(input("¿En qué mes? (expresa el mes en número) "))
+    while mes > 12 or mes < 1:
+        mes = int(input("escribe un valor válido "))
+    dia = int(input("¿Qué día de ese mes? "))
+    if mes in meses_con_31:
+        while dia <= 0 or dia > 31:
+            dia = int(input("escribe un valor válido "))
+    elif mes == 2:
+        while dia <= 0 or dia > dias_feb:
+            dia = int(input("escribe un valor válido "))
+    else:
+        while dia <= 0 or dia > 30:
+            dia = int(input("escribe un valor válido "))
+    return(mes, dia)
 
 #dias en febrero
 def bisciesto(año):
+    """
+    (funciones, condicionales, if anidados)
+    recibe un año y verifica que sea bisciesto
+    regresa el numero de días en el mes de febrero
+    """
     if año%4 == 0:
         if año%100 == 0:
             if año%400 == 0:
@@ -21,6 +54,11 @@ def bisciesto(año):
 
 #mes en letra
 def mes_escrito(mes):
+    """
+    (funciones, condicionales)
+    recibe un mes en número
+    regresa el mes en letra
+    """
     if mes == 1:
         mes_letra = "enero"
     elif mes == 2:
@@ -49,28 +87,28 @@ def mes_escrito(mes):
 
 #opcion 1
 def nuevo():
+    """
+    (funciones, operadores, condicionales, ciclos)
+    regresa los valores iniciales (dia, mes, hora, minutos)
+    y calcula y regresa los valores de finalización
+    de las actividades en base a su duración y sus valores de inicio
+    """
     global dias_feb
     
     def variables_nuevo():
-        actividad = str(input("¿Qué actividad tienes pendiente? " ))
+        """
+        (funciones, ciclos)
+        solicita los valores iniciales como actividad
+        mes de inicio, día de inicio, etc. y verifica
+        que sean correctos
+        """
+        actividad = str(input("¿Qué actividad tienes pendiente? "))
         duracion = int(input("¿Cuántos minutos dura? "))
         while duracion <=0:
             duracion = int(input("escribe un valor válido "))
-        mes_inicio = int(input("¿Qué mes es? (expresa el mes en número) "))
-        while mes_inicio <=0 or mes_inicio > 12:
-            mes_inicio = int(input("escribe un valor válido "))
-        dia_inicio = int(input("¿Qué día es? "))
-        if mes_inicio in meses_con_31:
-            while dia_inicio <= 0 or dia_inicio > 31:
-                dia_inicio = int(input("escribe un valor válido "))
-        elif mes_inicio == 2:
-            while dia_inicio <= 0 or dia_inicio > dias_feb:
-                dia_inicio = int(input("escribe un valor válido "))
-        else:
-            while dia_inicio <= 0 or dia_inicio > 30:
-                dia_inicio = int(input("escribe un valor válido "))
+        mes_inicio, dia_inicio = variables_comun()
     
-        hora_inicio = int(input("¿A que hora inicia tu actividad?(expresa en hora militar sin los minutos) "))
+        hora_inicio = int(input("¿A que hora inicia tu actividad?(en base al sistema de 24 horas sin considerar minutos) "))
         while hora_inicio >= 24 or hora_inicio < 0:
             hora_inicio = int(input("escribe un valor válido "))
         minuto_inicio = int(input("¿En que minuto de esa hora inicia tu actividad? "))
@@ -79,6 +117,12 @@ def nuevo():
         return(actividad, duracion, mes_inicio, dia_inicio, hora_inicio, minuto_inicio)
     
     def cambio_mes(mes_inicio, dias_feb, dia_final):
+        """
+        (funciones, operadores, ciclos, condicionales, if anidados, listas)
+        Calcula el mes de finalización de
+        la actividad y el día en base a la
+        duración de la actividad
+        """
         mes_final = mes_inicio
         while ((mes_final in meses_con_31) and dia_final > 31) or (mes_final == 2 and dia_final > dias_feb) or ((mes_final not in meses_con_31 and mes_final != 2) and dia_final > 30):
             if mes_final in meses_con_31:
@@ -96,6 +140,12 @@ def nuevo():
         return(mes_final, dia_final)
     
     def guardar(actividad, duracion, dia_inicio, mes_inicio_letra, hora_inicio, minuto_inicio, dia_final, mes_final_letra, hora_final, minuto_final):
+        """
+        (funciones, condicionales, ciclos, lsitas, listas anidadas, diccionarios, matrizes)
+        registra la actividad introducida junto con todos sus valores en una biblioteca
+        en base a su mes y día de inicio y genera el apartado al que pertenece si es
+        necesario
+        """
         global biblioteca_temp
         global biblioteca_general
         biblioteca_temp[dia_inicio] = {"actividad" : [actividad],
@@ -142,55 +192,20 @@ def nuevo():
     return(actividad, duracion, dia_inicio, mes_inicio_letra, hora_inicio, minuto_inicio, dia_final, mes_final_letra, hora_final, minuto_final)
 
 #opcion 2
-def recall(mes_pedido, dia_pedido):
-    while True:
-        mes_pedido_letra = mes_escrito(mes_pedido)
-        if biblioteca_general.get(mes_pedido_letra, {}).get(dia_pedido) != None:
-            return(biblioteca_general[mes_pedido_letra][dia_pedido], len(biblioteca_general[mes_pedido_letra][dia_pedido]["actividad"]))
-            pass
-        else:
-            print("\nNo se encontró nada en esa fecha")
-            mes_pedido = int(input("Escribe correctamente el mes que quieres verificar (expresa el mes en número): "))
-            dia_pedido = int(input("Escribe correctamete el día de ese mes: "))
-
-#opción 3
-def eliminar_actividad(actividad_elim, mes_elim, dia_elim):
-    while True:
-        mes_elim = mes_escrito(mes_elim)
-        if actividad_elim in biblioteca_general.get(mes_elim, {}).get(dia_elim, {}).get("actividad"):
-            index_elim = biblioteca_general[mes_elim][dia_elim]["actividad"].index(actividad_elim)
-            for x in biblioteca_general[mes_elim][dia_elim].keys():
-                biblioteca_general[mes_elim][dia_elim][x].pop(index_elim)
-            if biblioteca_general[mes_elim][dia_elim]["actividad"] == []:
-                del biblioteca_general[mes_elim][dia_elim]
-                if biblioteca_general[mes_elim] == {}:
-                    del biblioteca_general[mes_elim]
-            break
-        else:
-            print("\n No se encontró la actividad")
-            actividad_elim = input("Escribe correctamente la actividad que queires eliminar: ")
-            mes_pedido_letra = int(input("Escribe correctamente el mes de la actividad (expresa el mes en número): "))
-            dia_pedido = int(input("Escribe correctamete el día de ese mes: "))
-
-#main
-año = int(input("¿en que año quieres agendar? " ))
-while año <= 0:
-    año = int(input("escribe un valor válido "))
-dias_feb = bisciesto(año)
-
-while True:
-    accion = int(input("escribe 1 para agregar una actividad,\n2 para desplegar actividades de un dia,\n3 para eliminar una actividad o\n4 para terminar: "))
-    print()
-    if accion == 1:
-        actividad, duracion, dia_inicio, mes_inicio_letra, hora_inicio, minuto_inicio, dia_final, mes_final_letra, hora_final, minuto_final = nuevo()
-        print("\n",actividad, "dura", duracion, "minutos y es el", dia_inicio, "de", mes_inicio_letra, "a las", hora_inicio, ":", minuto_inicio, "y termina el", dia_final, "de", mes_final_letra, "a las", hora_final, ":", minuto_final, "\n")
-    elif accion == 2:
-        if biblioteca_general == {}:
-            print("Aun no hay actividades\n")
-        else:
-            mes_pedido = int(input("¿Qué mes quieres revisar? (expresa el mes en número) "))
-            dia_pedido = int(input("¿Qué día de ese mes? "))
-            biblioteca_temp, longitud = recall(mes_pedido, dia_pedido)
+def recall():
+    """
+    (funciones, condicionales, listas, bibliotecas, matrizes)
+    obtiene las actividades y sus valores de un mes y un dia
+    específico que solicitará o regresa None si no se
+    encontro registro de la fecha
+    """
+    def print_recall(biblioteca_temp, longitud):
+        """
+        (funciones, ciclos, listas, bibliotecas, matrizes, condicionales)
+        despliega las actividades y sus valores de una fecha
+        o despliega si no hay registro de la fecha
+        """
+        if biblioteca_temp != None:
             i = 0
             print()
             while i <= longitud-1:
@@ -198,15 +213,76 @@ while True:
                 i = i + 1
             print()
             biblioteca_temp = {}
+        else:
+            print("\nNo se encontraron actividades en la fecha\n")
+            biblioteca_temp = {}
+            
+    mes_pedido, dia_pedido = variables_comun()
+    mes_pedido_letra = mes_escrito(mes_pedido)
+    if biblioteca_general.get(mes_pedido_letra, {}).get(dia_pedido) != None:
+        biblioteca_temp = biblioteca_general[mes_pedido_letra][dia_pedido]
+        longitud = len(biblioteca_general[mes_pedido_letra][dia_pedido]["actividad"])
+    else:
+        biblioteca_temp = None
+        longitud = None
+    
+    print_recall(biblioteca_temp, longitud)
+
+#opción 3
+def eliminar_actividad(actividad_elim):
+    """
+    (funciones, condicionales, ciclos, if anidados, listas, bibliotecas, matrizes)
+    elimina una actividad específica de una fecha específica que solicita
+    y regresa que un aviso de su eliminación o de que no se encontró
+    registro de la actividad
+    """
+    mes_elim, dia_elim = variables_comun()
+    mes_elim = mes_escrito(mes_elim)
+    if actividad_elim in biblioteca_general.get(mes_elim, {}).get(dia_elim, {}).get("actividad", {}):
+        index_elim = biblioteca_general[mes_elim][dia_elim]["actividad"].index(actividad_elim)
+        for x in biblioteca_general[mes_elim][dia_elim].keys():
+            biblioteca_general[mes_elim][dia_elim][x].pop(index_elim)
+        if biblioteca_general[mes_elim][dia_elim]["actividad"] == []:
+            del biblioteca_general[mes_elim][dia_elim]
+            if biblioteca_general[mes_elim] == {}:
+                del biblioteca_general[mes_elim]
+        return("\nActividad eliminada\n")
+    else:
+        return("\nNo se encontró la actividad\n")
+
+"""
+========  parte principal del programa ========================================
+"""
+#se inicializan bibliotecas y variables globales, se solicitan y obtienen variábles únicas
+meses_con_31 = list([1, 3, 5, 7, 8, 10, 12])
+biblioteca_temp = {}
+biblioteca_general = {}
+año = int(input("¿en que año quieres agendar? " ))
+while año <= 0:
+    año = int(input("escribe un valor válido "))
+dias_feb = bisciesto(año)
+
+#menu
+while True:
+    #solicitar acción
+    accion = int(input("escribe 1 para agregar una actividad,\n2 para desplegar actividades de un dia,\n3 para eliminar una actividad o\n4 para terminar: "))
+    print()
+    
+    #verificar acción a ejecutar
+    if accion == 1:
+        actividad, duracion, dia_inicio, mes_inicio_letra, hora_inicio, minuto_inicio, dia_final, mes_final_letra, hora_final, minuto_final = nuevo()
+        print("\n",actividad, "dura", duracion, "minutos y es el", dia_inicio, "de", mes_inicio_letra, "a las", hora_inicio, ":", minuto_inicio, "y termina el", dia_final, "de", mes_final_letra, "a las", hora_final, ":", minuto_final, "\n")
+    elif accion == 2:
+        if biblioteca_general == {}:
+            print("Aun no hay actividades\n")
+        else:
+            recall()
     elif accion == 3:
         if biblioteca_general == {}:
             print("Aun no hay actividades\n")
         else:
-            actividad_elim = input("¿Qué actividad quieres eliminar? ")
-            mes_elim = int(input("¿En que mes es esa actividad? "))
-            dia_elim = int(input("¿En qué día de ese mes? "))
-            eliminar_actividad(actividad_elim, mes_elim, dia_elim)
-            print("\nActividad eliminada\n")
+            actividad_elim = input("¿Qué actividad tienes pendiente? ")
+            print(eliminar_actividad(actividad_elim))
     elif accion == 4:
         break
     else:
